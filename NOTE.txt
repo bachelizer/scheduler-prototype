@@ -3,3 +3,6 @@
 
 ** tblrooms
 - alter table added "category" string value [lab, lec]
+
+** change the database password to "atoz"
+** change the databse name 
