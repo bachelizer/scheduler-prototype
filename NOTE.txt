@@ -1,0 +1,5 @@
+** tbl_instructor
+- alter table added "isPWD" boolean
+
+** tblrooms
+- alter table added "category" string value [lab, lec]
