@@ -6,7 +6,7 @@
         <v-card-title class="d-flex align-center justify-center py-7">
           <router-link to="/" class="d-flex align-center">
             <v-img
-              :src="require('@/assets/images/logos/logo.svg')"
+              :src="require('@/assets/images/logos/logo.png')"
               max-height="30px"
               max-width="30px"
               alt="logo"
@@ -33,12 +33,7 @@
         <!-- login form -->
         <v-card-text>
           <v-form>
-            <v-text-field
-              v-model="username"
-              outlined
-              hide-details
-              class="mb-3"
-            ></v-text-field>
+            <v-text-field v-model="username" outlined hide-details class="mb-3"></v-text-field>
 
             <v-text-field
               v-model="password"
@@ -66,6 +61,9 @@
           </v-form>
         </v-card-text>
       </v-card>
+      <v-alert v-if="invalid" dense outlined type="error" class="mt-2">
+        Invalid Account..
+      </v-alert>
     </div>
 
     <!-- background triangle shape  -->
@@ -114,6 +112,7 @@ export default {
     return {
       username: '',
       password: '',
+      invalid: false,
     };
   },
   methods: {
@@ -125,7 +124,7 @@ export default {
         this.$router.push({ name: 'schedule' });
       } catch (error) {
         console.log(error);
-        alert('Invalid account.');
+        this.invalid = true;
       }
     },
   },

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:8081';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:8080';
 
 // return axiosInstance;
 const data = parsedUrl => {
-  if (parsedUrl === 'http://localhost:8081') {
+  if (parsedUrl === 'http://localhost:8080') {
     return 'http://localhost:5000';
   }
  

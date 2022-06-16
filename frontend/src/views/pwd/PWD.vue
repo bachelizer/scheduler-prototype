@@ -5,7 +5,7 @@
         <PageTitle :title="'PWD Scheduler'" :subTitle="'Scheduling for PWD Instructors.'" />
         <v-col>
           <v-row justify="space-between">
-            <v-col cols="4">
+            <v-col cols="4" md="4" sm="2">
               <v-text-field
                 id="firstname"
                 v-model="search"
@@ -15,7 +15,7 @@
                 hide-details
               ></v-text-field>
             </v-col>
-            <v-col cols="2">
+            <v-col lg="2" cols="4" md="2" sm="2">
               <v-btn @click="onGeneration" color="success">Generate schedule</v-btn>
             </v-col>
           </v-row>
