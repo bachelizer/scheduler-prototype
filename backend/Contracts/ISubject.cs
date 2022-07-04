@@ -9,6 +9,7 @@ namespace backend.Contracts
 		public Task<IEnumerable<OfferedSubject>> FetchOfferedSubjects();
 		public Task<IEnumerable<OfferedSubject>> FetchLaboratorySubjects();
 		public Task<IEnumerable<OfferedSubject>> FetchLectureSubjects();
+		public Task<IEnumerable<OfferedSubject>> FetchHandledSubject(int instructor_id);
 		
 	}
 }

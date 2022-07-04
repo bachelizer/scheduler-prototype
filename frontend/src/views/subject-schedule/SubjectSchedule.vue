@@ -15,14 +15,17 @@
             hide-details
           ></v-text-field>
         </v-col>
-        <v-data-table :items="offers" :headers="headers" :search="search">
+        <v-data-table :items="subjectNotTBA" :headers="headers" :search="search">
           <template v-slot:item.middlename="{ item }">
             {{ item.middle_name }}
             <v-chip v-if="item.isPWD" class="ma-2" x-small color="success" text-color="white">
               PWD
             </v-chip>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:item.day="{ item }">{{ isSchedGen ? item.days : '?' }}</template>
+          <template v-slot:item.in="{ item }">{{ isSchedGen ? item.time_in : '?' }}</template>
+          <template v-slot:item.out="{ item }">{{isSchedGen ? item.time_out : '?'}}</template>
+          <!-- <template v-slot:item.actions="{ item }">
             <v-btn
               elevation="1"
               small
@@ -31,27 +34,19 @@
               @click="onInformation(item)"
               >Information</v-btn
             >
-          </template>
+          </template> -->
         </v-data-table>
       </v-card>
     </v-col>
-    <offered-subjects-form
-      v-if="dialog"
-      :dialog="dialog"
-      :data="data"
-      :instructors="instructors"
-      @close="dialog = false"
-    ></offered-subjects-form>
   </v-row>
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
 
 import PageTitle from '@/components/PageTitle.vue';
-import OfferedSubjectsForm from './OfferedSubjectsForm.vue';
 
 export default {
-  components: { PageTitle, OfferedSubjectsForm },
+  components: { PageTitle },
   data() {
     return {
       dialog: false,
@@ -67,11 +62,11 @@ export default {
         { text: 'Year', value: 'year_level' },
         { text: 'Section', value: 'section', filterable: false },
         { text: 'Class', value: 'class', filterable: false },
-        // { text: 'Days', value: 'days', filterable: false },
-        // { text: 'Time-in', value: 'time_in', filterable: false },
-        // { text: 'Time-out', value: 'time_out', filterable: false },
+        { text: 'Days', value: 'day', filterable: false },
+        { text: 'Time-in', value: 'in', filterable: false },
+        { text: 'Time-out', value: 'out', filterable: false },
         { text: 'Instructor', value: 'instructor_name' },
-        { text: 'Actions', value: 'actions', filterable: false },
+        // { text: 'Actions', value: 'actions', filterable: false },
       ],
     };
   },
@@ -81,12 +76,9 @@ export default {
   methods: {
     ...mapActions({
       fetchOffers: 'subject/fetchOfferSubjects',
-      instructor: 'instructor/fetchAllInstructors',
-
     }),
     loadOffers() {
       this.fetchOffers();
-      this.instructor();
     },
     onInformation(item) {
       this.dialog = true;
@@ -96,8 +88,13 @@ export default {
   computed: {
     ...mapState({
       offers: state => state.subject.offers,
-      instructors: state => state.instructor.instructors,
+      isSchedGen: state => state.subject.isSchedGen,
     }),
+    subjectNotTBA() {
+      return this.offers.filter(x => {
+        return x.time_in !== 'TBA';
+      });
+    },
   },
 };
 </script>

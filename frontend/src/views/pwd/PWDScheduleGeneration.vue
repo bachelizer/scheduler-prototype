@@ -19,14 +19,32 @@
             <v-btn @click="generate" color="primary">Generate</v-btn>
           </v-col>
         </v-row>
-        <v-progress-linear v-if="showProgress" indeterminate color="success"></v-progress-linear>
+         <div v-if="showProgress">
+          <v-progress-linear indeterminate color="success"></v-progress-linear>
+          <v-row justify="center">
+            <v-col md="2"> <h4>generating schedule...</h4></v-col>
+          </v-row>
+        </div>
 
         <v-divider></v-divider>
 
-        <v-data-table
+        <v-data-table  v-if="showTable" :headers="headers" :items="instructors">
+          <template v-slot:item.actions="{ item }">
+            <v-btn
+              elevation="1"
+              small
+              class="btn btn-info"
+              color="info"
+              @click="onSubjectHandled(item.instructor_id)"
+              >Subjects schedule</v-btn
+            >
+          </template>
+        </v-data-table>
+
+        <!-- <v-data-table
           v-if="showTable"
           :headers="dessertHeaders"
-          :items="desserts"
+          :items="handledSubjects"
           :single-expand="singleExpand"
           item-key="instructor_id"
           show-expand
@@ -52,10 +70,10 @@
                     <th>Time Out</th>
                   </thead>
                   <tbody>
-                    <tr v-for="(i, index) in item.scheddules" :key="index">
-                      <td>{{ i.subjectCode }}</td>
-                      <td>{{ i.course }}</td>
-                      <td>{{ i.year }}</td>
+                    <tr v-for="(i, index) in handledSubjects" :key="index">
+                      <td>{{ i.subject }}</td>
+                      <td>{{ i.course_title }}</td>
+                      <td>{{ i.year_level }}</td>
                       <td>{{ i.section }}</td>
                       <td>{{ i.days }}</td>
                       <td>{{ i.time_in }}</td>
@@ -66,18 +84,28 @@
               </div>
             </td>
           </template>
-        </v-data-table>
+        </v-data-table> -->
       </v-card>
     </v-dialog>
+    <PWDDialog
+      v-if="dialogSched"
+      :dialog="dialogSched"
+      :data="handledSubjects"
+      @close="dialogSched = false"
+    />
   </v-row>
 </template>
 <script>
 import { mdiClose } from '@mdi/js';
+import { mapActions } from 'vuex';
+import PWDDialog from './PWDDialog.vue';
 
 export default {
   name: 'PWDScheduleGeneration',
+  components: { PWDDialog },
   data() {
     return {
+      dialogSched: false,
       showProgress: false,
       showTable: false,
       icons: {
@@ -85,6 +113,19 @@ export default {
       },
       expanded: [],
       singleExpand: true,
+      headers: [
+        {
+          text: 'Designation',
+          sortable: false,
+          value: 'designation',
+        },
+        { text: 'Lastname', value: 'last_name' },
+        { text: 'Firstname', value: 'first_name' },
+        { text: 'Middlename', value: 'middlename', filterable: false },
+        { text: 'Institute of', value: 'institute_title', filterable: false },
+        { text: 'Actions', value: 'actions', filterable: false },
+      ],
+      /*
       dessertHeaders: [
         {
           text: 'Designation',
@@ -235,7 +276,7 @@ export default {
             },
           ],
         },
-      ],
+      ], */
     };
   },
   props: {
@@ -243,17 +284,32 @@ export default {
       type: Boolean,
       default: false,
     },
+    handledSubjects: {
+      type: Array,
+      default: () => [],
+    },
+    instructors: {
+      type: Array,
+      default: () => [],
+    },
   },
   methods: {
+    ...mapActions('subject', ['setPwdGen']),
+    ...mapActions('instructor', ['fetchHandledSubjects']),
     loadDetails({ item }) {
       return this.desserts.filter(x => x.instructor_id == item.instructor_id);
     },
     generate() {
+      this.setPwdGen();
       this.showProgress = true;
       setTimeout(() => {
         this.showTable = true;
         this.showProgress = false;
       }, 5000);
+    },
+    onSubjectHandled(id) {
+      this.fetchHandledSubjects(id)
+      this.dialogSched = true
     },
   },
 };

@@ -64,8 +64,13 @@
 
        <nav-menu-section-title title="SCHEDULES"></nav-menu-section-title>
       <nav-menu-link
-        title="Schedules"
+        title="Faculty Load"
         :to="{ name: 'schedule' }"
+        :icon="icons.mdiAlphaFBoxOutline"
+      ></nav-menu-link>
+       <nav-menu-link
+        title="Subject Schedules"
+        :to="{ name: 'subject-schedule' }"
         :icon="icons.mdiAlphaSBoxOutline"
       ></nav-menu-link>
     </v-list>
@@ -86,6 +91,7 @@ import {
   mdiFileOutline,
   mdiFormSelect,
   mdiAccountCogOutline,
+  mdiAlphaFBoxOutline,
 } from '@mdi/js';
 import NavMenuSectionTitle from './components/NavMenuSectionTitle.vue';
 import NavMenuGroup from './components/NavMenuGroup.vue';
@@ -116,6 +122,7 @@ export default {
         mdiFormSelect,
         mdiAccountCogOutline,
         mdiAlphaRBoxOutline,
+        mdiAlphaFBoxOutline,
       },
     };
   },

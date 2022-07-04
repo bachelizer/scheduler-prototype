@@ -13,10 +13,18 @@ export default {
   namespaced: true,
   state: {
     instructors: [],
+    handledSubjects: [],
   },
   mutations: {
     SET_INSTRUCTOR(state, data) {
       state.instructors = data;
+    },
+    SET_HANDLED_SUBJECTS(state, data) {
+      const a = data.filter(x => {
+        return (x.time_in !== 'TBA' && x.room.includes('TBA') === false);
+      })
+      console.log(a)
+      state.handledSubjects = a;
     },
   },
   actions: {
@@ -25,8 +33,16 @@ export default {
         const { data } = await instructor.fetchInstructors();
         const id = this.state.auth.user.instructor_id;
         const instruc = utilities.getInstructor(id, data);
-        console.log(instruc);
         commit('SET_INSTRUCTOR', instruc);
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    async fetchAllInstructors({ commit }) {
+      try {
+        const { data } = await instructor.fetchInstructors();
+        commit('SET_INSTRUCTOR', data);
       } catch (error) {
         console.log(error);
         throw error;
@@ -36,6 +52,15 @@ export default {
       try {
         const { data } = await instructor.fetchPWDInstructors();
         commit('SET_INSTRUCTOR', data);
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    async fetchHandledSubjects({ commit }, id) {
+      try {
+        const { data } = await instructor.fetchHandledSubjects(id);
+        commit('SET_HANDLED_SUBJECTS', data);
       } catch (error) {
         console.log(error);
         throw error;

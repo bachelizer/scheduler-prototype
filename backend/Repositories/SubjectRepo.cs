@@ -83,7 +83,7 @@ namespace backend.Repository
                             JOIN tbl_instructor d ON b.`instructor_id` = d.`instructor_id`
                             JOIN tblsubjects e ON e.`subject_id` = a.`subject_id`
                             LEFT JOIN tblrooms f ON b.`room_id` = f.`room_id`
-                            WHERE a.school_year_id = 22 AND a.semester_id = 1 AND e.laboratory_units > 0
+                            WHERE a.school_year_id = 22 AND a.semester_id = 1 AND e.laboratory_units > 0  AND b.`class` = 'LAB'
                             GROUP BY a.offered_id;";
             using (IDbConnection dbConnection = Connection)
             {
@@ -115,12 +115,38 @@ namespace backend.Repository
                             JOIN tbl_instructor d ON b.`instructor_id` = d.`instructor_id`
                             JOIN tblsubjects e ON e.`subject_id` = a.`subject_id`
                             LEFT JOIN tblrooms f ON b.`room_id` = f.`room_id`
-                            WHERE a.school_year_id = 22 AND a.semester_id = 1
+                            WHERE a.school_year_id = 22 AND a.semester_id = 1 AND b.`class` = 'LEC'
                             GROUP BY a.offered_id;";
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
                 var data = await dbConnection.QueryAsync<OfferedSubject>(qry);
+                return data;
+            }
+        }
+
+        public async Task<IEnumerable<OfferedSubject>> FetchHandledSubject(int instructor_id)
+        {
+            string qry = @"SELECT 
+                            e.`subject`
+                            , c.`course_title`
+                            , a.`year_level`
+                            , a.`section`
+                            , b.`class`
+                            , b.`days`
+                            , b.`time_in`
+                            , b.`time_out`
+                            , d.`room` 
+                        FROM tblofferedsubjects a
+                        JOIN tblsubjectschedule b ON a.`offer_subject_id` = b.`offer_subject_id` AND a.`school_year_id` = b.`school_year_id` AND a.`semester_id` = b.`semester_id`
+                        JOIN tblcourses c ON a.`course_id`=c.`course_id`
+                        JOIN tblrooms d ON b.`room_id` = d.`room_id`
+                        JOIN tblsubjects e ON a.`subject_id`=e.`subject_id`
+                        WHERE b.`instructor_id`= @instructor_id AND b.`school_year_id` = 22 AND b.`semester_id` = 1;";
+            using (IDbConnection dbConnection = Connection)
+            {
+                dbConnection.Open();
+                var data = await dbConnection.QueryAsync<OfferedSubject>(qry, new { instructor_id = instructor_id});
                 return data;
             }
         }

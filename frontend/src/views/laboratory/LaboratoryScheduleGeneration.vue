@@ -14,12 +14,18 @@
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
+
         <v-row justify="center" class="mt-5 mb-5">
           <v-col md="2">
             <v-btn @click="generate" color="primary">Generate</v-btn>
           </v-col>
         </v-row>
-        <v-progress-linear v-if="showProgress" indeterminate color="success"></v-progress-linear>
+        <div v-if="showProgress">
+          <v-progress-linear indeterminate color="success"></v-progress-linear>
+          <v-row justify="center">
+            <v-col md="2"> <h4>generating schedule...</h4></v-col>
+          </v-row>
+        </div>
 
         <v-divider></v-divider>
         <v-col>
@@ -36,8 +42,7 @@
           </v-row>
         </v-col>
         <v-data-table v-if="showTable" :headers="headers" :items="offers" :search="search">
-
-           <template v-slot:top>
+          <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Generation Result</v-toolbar-title>
             </v-toolbar>
@@ -48,6 +53,7 @@
   </v-row>
 </template>
 <script>
+import { mapActions } from 'vuex';
 import { mdiClose } from '@mdi/js';
 
 export default {
@@ -88,7 +94,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions('subject', ['setSchedGen']),
     generate() {
+      this.setSchedGen();
       this.showProgress = true;
       setTimeout(() => {
         this.showTable = true;

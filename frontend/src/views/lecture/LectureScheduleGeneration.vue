@@ -19,7 +19,12 @@
             <v-btn @click="generate" color="primary">Generate</v-btn>
           </v-col>
         </v-row>
-        <v-progress-linear v-if="showProgress" indeterminate color="success"></v-progress-linear>
+         <div v-if="showProgress">
+          <v-progress-linear indeterminate color="success"></v-progress-linear>
+          <v-row justify="center">
+            <v-col md="2"> <h4>generating schedule...</h4></v-col>
+          </v-row>
+        </div>
 
         <v-divider></v-divider>
 

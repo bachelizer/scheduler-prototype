@@ -1,0 +1,66 @@
+[
+    {
+        "instructorName": "Mr. Instructor CAS",
+        "isPWD": false,
+        "college": "CAS",
+        "subjects": [
+            {
+                "subject": "CAS Subject 1",
+                "category": "LAB",
+                "room": {
+                    "roomId": 1,
+                    "college": "CAS",
+                    "roomCategory": "LAB",
+                    "room": "Laboratory room"
+                },
+                "time": { "id": 1, "time": "8:00AM - 12:00NN" },
+                "days": "M"
+            },
+            {
+                "subject": "CAS Subject 2",
+                "category": "LAB",
+                "room": {
+                    "roomId": 1,
+                    "college": "CAS",
+                    "roomCategory": "LAB",
+                    "room": "Laboratory room"
+                },
+                "time": { "id": 2, "time": "1:00PM - 5:00PM" },
+                "days": "M"
+            },
+            {
+                "subject": "CAS Subject 3",
+                "category": "LAB",
+                "room": {
+                    "roomId": 1,
+                    "college": "CAS",
+                    "roomCategory": "LAB",
+                    "room": "Laboratory room"
+                },
+                "time": { "id": 2, "time": "1:00PM - 5:00PM" },
+                "days": "T"
+            }
+        ]
+    },
+    {
+        "instructorName": "Mr. Instructor CEIS",
+        "isPWD": false,
+        "college": "CEIS",
+        "subjects": [
+            {
+                "subject": "CEIS Subject 1",
+                "category": "LAB",
+                "room": {
+                    "roomId": 3,
+                    "college": "CEIS",
+                    "roomCategory": "LAB",
+                    "room": "Laboratory room two"
+                },
+                "time": { "id": 1, "time": "8:00AM - 12:00NN" },
+                "days": "M"
+            },
+            { "subject": "CEIS Subject 2", "category": "LEC" },
+            { "subject": "CEIS Subject 3", "category": "LEC" }
+        ]
+    }
+]

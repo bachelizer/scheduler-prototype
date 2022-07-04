@@ -9,16 +9,18 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Subject code" v-model="data.subject" required></v-text-field>
+                <v-text-field readonly label="Subject code" v-model="data.subject" required></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field
+                <!-- <v-text-field
                   label="Assigned Instructor"
                   v-model="data.instructor_name"
-                ></v-text-field>
+                ></v-text-field> -->
+                <v-autocomplete :readonly="user.role === 'registrar'" label="Assigned Instructor" :items="instructors" v-model="data.instructor_id" :item-text="item => `${item.last_name}, ${item.first_name}`" item-value="instructor_id" ></v-autocomplete>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
+                readonly
                   label="Course"
                   v-model="data.course_title"
                   persistent-hint
@@ -26,13 +28,13 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Year level" v-model="data.year_level" required></v-text-field>
+                <v-text-field readonly label="Year level" v-model="data.year_level" required></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Section" v-model="data.section" required></v-text-field>
+                <v-text-field readonly label="Section" v-model="data.section" required></v-text-field>
               </v-col>
 
-                <v-col cols="12" sm="6" md="4">
+                <!-- <v-col cols="12" sm="6" md="4">
                 <v-text-field
                   label="Days"
                   v-model="data.days"
@@ -48,8 +50,7 @@
               </v-col>
               <v-col cols="12" sm="6" md="2">
                 <v-text-field label="Time Out" v-model="data.time_out" required></v-text-field>
-              </v-col>
-             
+              </v-col> -->
             </v-row>
           </v-container>
         </v-card-text>
@@ -67,6 +68,8 @@
   </v-row>
 </template>
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'OfferedSubjectsForm',
   props: {
@@ -78,6 +81,13 @@ export default {
       type: Object,
       default: () => {},
     },
+    instructors: {
+      type: Array,
+      default: () => []
+    }
   },
+  computed: {
+    ...mapState('auth', ['user']),
+  }
 };
 </script>

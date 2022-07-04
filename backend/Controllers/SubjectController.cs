@@ -33,6 +33,12 @@ namespace backend.Controllers
         {
             return await _subjectrepo.FetchLectureSubjects();
         }
+        [HttpGet]
+        [Route("handled-subject")]
+        public async Task<IEnumerable<OfferedSubject>> FetchHandledSubject(int instructor_id)
+        {
+            return await _subjectrepo.FetchHandledSubject(instructor_id);
+        }
        
 
     }

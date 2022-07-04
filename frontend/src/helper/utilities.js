@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 const getByProgram = (course, payload) => {
   let data = [];
-  if (course) {
+  if (course != null) {
     const splitCourse = course.split(' ');
     for (let i = 0; i < splitCourse.length; i++) {
       for (let x = 0; x < payload.length; x++) {

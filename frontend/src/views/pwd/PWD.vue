@@ -35,22 +35,28 @@
         </v-data-table>
       </v-card>
     </v-col>
-
-    <PWDScheduleGeneration v-if="dialog" :dialog="dialog" @close="dialog = false">
-    </PWDScheduleGeneration>
+    <PWDDialog
+      v-if="dialogSched"
+      :dialog="dialogSched"
+      :data="handledSubjects"
+      @close="dialogSched = false"
+    />
+    <PWDScheduleGeneration v-if="dialog" :dialog="dialog" :instructors="instructors" :handledSubjects="handledSubjects" @close="dialog = false" />
   </v-row>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
 import PageTitle from '@/components/PageTitle.vue';
 import PWDScheduleGeneration from './PWDScheduleGeneration.vue';
+import PWDDialog from './PWDDialog.vue';
 
 export default {
-  components: { PageTitle, PWDScheduleGeneration },
+  components: { PageTitle, PWDScheduleGeneration, PWDDialog },
   name: 'PWD',
   data() {
     return {
       dialog: false,
+      dialogSched: false,
       search: '',
       headers: [
         {
@@ -70,7 +76,7 @@ export default {
     this.loadInstructor();
   },
   methods: {
-    ...mapActions('instructor', ['fetchPWDInstructors']),
+    ...mapActions('instructor', ['fetchPWDInstructors', 'fetchHandledSubjects']),
     async loadInstructor() {
       try {
         await this.fetchPWDInstructors();
@@ -78,16 +84,20 @@ export default {
         console.log(e.message);
       }
     },
-    onSubjectHandled(id) {
-      this.informationDialog = true;
-      console.log(id);
+    async onSubjectHandled(id) {
+      this.dialogSched = true;
+      try {
+        await this.fetchHandledSubjects(id);
+      } catch (e) {
+        console.log(e.message);
+      }
     },
     onGeneration() {
       this.dialog = true;
     },
   },
   computed: {
-    ...mapState('instructor', ['instructors']),
+    ...mapState('instructor', ['instructors', 'handledSubjects']),
   },
 };
 </script>

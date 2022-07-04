@@ -102,7 +102,12 @@ const routes = [
   {
     path: '/schedule',
     name: 'schedule',
-    component: () => import('../views/schedules/Schedules.vue')
+    component: () => import('../views/schedules/Schedules.vue'),
+  },
+  {
+    path: '/subject-schedule',
+    name: 'subject-schedule',
+    component: () => import('../views/subject-schedule/SubjectSchedule.vue'),
   },
   {
     path: '*',

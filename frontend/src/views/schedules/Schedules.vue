@@ -25,24 +25,31 @@
               small
               class="btn btn-info"
               color="info"
-              href="file/SCHEDULE.xlsx"
-              download
-              >Download</v-btn
+              @click="onSubjectHandled(item.instructor_id)"
+              >VIEW</v-btn
             >
           </template>
         </v-data-table>
       </v-card>
     </v-col>
+    <SchedulesView
+      v-if="dialogSched"
+      :dialog="dialogSched"
+      :data="handledSubjects"
+      @close="dialogSched = false"
+    />
   </v-row>
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
 import PageTitle from '@/components/PageTitle.vue';
+import SchedulesView from './SchedulesView.vue';
 
 export default {
-  components: { PageTitle },
+  components: { PageTitle, SchedulesView },
   data() {
     return {
+      dialogSched: false,
       search: '',
       headers: [
         {
@@ -64,13 +71,21 @@ export default {
     this.getInstructor();
   },
   methods: {
-    ...mapActions('instructor', ['fetchInstructors']),
+    ...mapActions('instructor', ['fetchInstructors', 'fetchHandledSubjects']),
     getInstructor() {
       this.fetchInstructors();
     },
+    async onSubjectHandled(id) {
+      this.dialogSched = true;
+      try {
+        const a = await this.fetchHandledSubjects(id);
+      } catch (e) {
+        console.log(e.message);
+      }
+    },
   },
   computed: {
-    ...mapState('instructor', ['instructors']),
+    ...mapState('instructor', ['instructors', 'handledSubjects']),
   },
 };
 </script>
