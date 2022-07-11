@@ -10,6 +10,7 @@ namespace backend.Model
         public string last_name { get; set; }
         public string institute_id { get; set; }
         public string institute_title { get; set; }
+        public int course_id { get; set; }
         public bool isPWD { get; set; }
     }
 }

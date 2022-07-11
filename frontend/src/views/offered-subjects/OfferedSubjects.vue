@@ -40,6 +40,7 @@
       :dialog="dialog"
       :data="data"
       :instructors="instructors"
+      @assign="onAssign"
       @close="dialog = false"
     ></offered-subjects-form>
   </v-row>
@@ -82,7 +83,7 @@ export default {
     ...mapActions({
       fetchOffers: 'subject/fetchOfferSubjects',
       instructor: 'instructor/fetchAllInstructors',
-
+      assignInstructor: 'subject/assignInstructor',
     }),
     loadOffers() {
       this.fetchOffers();
@@ -91,6 +92,11 @@ export default {
     onInformation(item) {
       this.dialog = true;
       this.data = item;
+    },
+    async onAssign(instructor_id, schedule_id) {
+      await this.assignInstructor([instructor_id, schedule_id])
+      this.fetchOffers();
+      this.dialog = false;
     },
   },
   computed: {

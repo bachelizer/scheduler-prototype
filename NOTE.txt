@@ -6,3 +6,7 @@
 
 ** change the database password to "atoz"
 ** change the databse name 
+
+
+** added culomn course_id in tbl_instructor (int, 10)
+** update culomn instructor_id to null in tblsubjectschedule

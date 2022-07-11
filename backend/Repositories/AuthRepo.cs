@@ -29,7 +29,7 @@ namespace backend.Repository
 
         public async Task<User> Auth(string username, string password)
         {
-            string qry = @"select b.instructor_id, c.lastname, c.firstname, c.middlename, c.designation, a.role, b.fkcourseidPC from tbl_is_useraccount a
+            string qry = @"select b.instructor_id, c.lastname, c.firstname, c.middlename, c.designation, a.role, b.fkcourseidPC, b.course_id from tbl_is_useraccount a
                         left join tbl_instructor b on b.instructor_id = a.instructor_id
                         left join tblenrolsysusers c on c.staff_id = a.staff_id
                         where a.username = @username and a.`password` = EncryptPassword(@password);";

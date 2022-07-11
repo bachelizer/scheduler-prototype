@@ -57,19 +57,19 @@
       ></nav-menu-link>
       <nav-menu-link
       v-if="user.role == 'registrar' || user.role == 'program_chair'"
-        title="Offered Subjects"
+        :title="user.role == 'registrar' ? 'Faculty Load' : 'Create Faculty Load'"
         :to="{ name: 'offered-subjects' }"
         :icon="icons.mdiAlphaSBoxOutline"
       ></nav-menu-link>
 
        <nav-menu-section-title title="SCHEDULES"></nav-menu-section-title>
       <nav-menu-link
-        title="Faculty Load"
+        title="Individual Schedule"
         :to="{ name: 'schedule' }"
         :icon="icons.mdiAlphaFBoxOutline"
       ></nav-menu-link>
        <nav-menu-link
-        title="Subject Schedules"
+        title="Offere Subjects"
         :to="{ name: 'subject-schedule' }"
         :icon="icons.mdiAlphaSBoxOutline"
       ></nav-menu-link>

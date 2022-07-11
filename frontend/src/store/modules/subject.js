@@ -56,6 +56,13 @@ export default {
         throw error;
       }
     },
+    async assignInstructor({ commit }, [instructorId, scheduleId]) {
+      try {
+        await subject.assignInstructor(instructorId, scheduleId);
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     setPwdGen({ commit }) {
       commit('SET_PWD_GENERATE');

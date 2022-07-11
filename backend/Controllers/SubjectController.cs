@@ -39,6 +39,11 @@ namespace backend.Controllers
         {
             return await _subjectrepo.FetchHandledSubject(instructor_id);
         }
+        [HttpPost]
+        public async Task AssignInstructor(int instructorID, int scheduleId)
+        {
+            await _subjectrepo.AssignInstructor(instructorID, scheduleId);
+        }
        
 
     }

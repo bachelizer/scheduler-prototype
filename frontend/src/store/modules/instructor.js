@@ -21,9 +21,9 @@ export default {
     },
     SET_HANDLED_SUBJECTS(state, data) {
       const a = data.filter(x => {
-        return (x.time_in !== 'TBA' && x.room.includes('TBA') === false);
-      })
-      console.log(a)
+        return x.time_in !== 'TBA' && x.room.includes('TBA') === false;
+      });
+      console.log(a);
       state.handledSubjects = a;
     },
   },
@@ -42,7 +42,10 @@ export default {
     async fetchAllInstructors({ commit }) {
       try {
         const { data } = await instructor.fetchInstructors();
-        commit('SET_INSTRUCTOR', data);
+        const { course_id } = this.state.auth.user;
+
+        const list = data.filter(x => x.course_id === course_id);
+        commit('SET_INSTRUCTOR', course_id ? list : data);
       } catch (error) {
         console.log(error);
         throw error;

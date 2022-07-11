@@ -2,6 +2,7 @@ namespace backend.Model
 {
     public class OfferedSubject
     {
+        public int schedule_id { get; set; }
         public int offered_id { get; set; }
         public int subject_id { get; set; }
         public string subject { get; set; }

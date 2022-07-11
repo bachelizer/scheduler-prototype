@@ -9,5 +9,6 @@ namespace backend.Model
         public string designation { get; set; }
         public string role { get; set; }
         public string fkcourseidPC { get; set; }
+        public int course_id { get; set; }
     }
 }
